@@ -6,6 +6,7 @@ import { Row, Col, Container } from "react-bootstrap";
 
 // import component
 import Input from "./components/Input/Input";
+import Textarea from "./components/Textarea/Textarea";
 
 // import style
 import "./sass/App.scss";
@@ -44,6 +45,17 @@ function App() {
                   label="Last Name"
                   field_id="last_name"
                   mandatory
+                />
+              </Col>
+            </Row>
+
+            <Row className="pt-4">
+              <Col lg={12} md={12} sm={12}>
+                <Textarea
+                  name="small_description"
+                  placeholder="Small Description"
+                  label="Small Description"
+                  required
                 />
               </Col>
             </Row>
