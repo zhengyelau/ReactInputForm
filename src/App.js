@@ -5,6 +5,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { Row, Col, Container } from "react-bootstrap";
 
 // import component
+import Button from "./components/Button/Button";
 import Input from "./components/Input/Input";
 import Textarea from "./components/Textarea/Textarea";
 
@@ -72,6 +73,27 @@ function App() {
                   }
                   mandatory
                 />
+              </Col>
+            </Row>
+
+            <Row className="pt-4">
+              <Col lg={6} md={6} sm={6} />
+              <Col lg={6} md={6} sm={6} className="mt-3 mt-sm-0">
+                <div className="d-flex justify-content-between align-items-center pl-5">
+                  <Button
+                    label={"add image"}
+                    variant="primary"
+                    type="button"
+                    className="form-btn"
+                  />
+
+                  <Button
+                    label={"Save"}
+                    variant="primary"
+                    type="submit"
+                    className="form-btn"
+                  />
+                </div>
               </Col>
             </Row>
           </form>
