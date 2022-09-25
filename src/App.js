@@ -49,13 +49,28 @@ function App() {
               </Col>
             </Row>
 
-            <Row className="pt-4">
+            <Row className="pt-4 pb-2">
               <Col lg={12} md={12} sm={12}>
                 <Textarea
                   name="small_description"
                   placeholder="Small Description"
                   label="Small Description"
                   required
+                />
+              </Col>
+            </Row>
+
+            <Row className="pt-5">
+              <Col lg={12} md={12} sm={12}>
+                <Input
+                  type="email"
+                  label="Email Address"
+                  field_id="email"
+                  errorMessage="Invalid Email"
+                  validationPattern={
+                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                  }
+                  mandatory
                 />
               </Col>
             </Row>
