@@ -1,17 +1,22 @@
 import React, { useState, useEffect, useRef } from "react";
 
 // import package
+import emailjs from "@emailjs/browser";
 import { FormProvider, useForm } from "react-hook-form";
 import { Row, Col, Container } from "react-bootstrap";
-import emailjs from "@emailjs/browser";
+import { ToastContainer, toast } from "react-toastify";
 
 // import component
 import Button from "./components/Button/Button";
 import Input from "./components/Input/Input";
 import Textarea from "./components/Textarea/Textarea";
 
+// import helpers
+import { postRequest } from "./helpers/axiosClient";
+
 // import style
 import "./sass/App.scss";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const [image, setImage] = useState([]);
@@ -33,7 +38,25 @@ function App() {
     mode: "all",
   });
 
-  const { handleSubmit } = methods;
+  const {
+    handleSubmit,
+    getValues,
+    reset,
+    formState: { isValid },
+  } = methods;
+
+  // function to reset all form fields
+  const resetFormFields = () => {
+    reset({
+      first_name: "",
+      last_name: "",
+      small_description: "",
+      email: "",
+    });
+    setImage([]);
+    setImageURLs([]);
+    toast("Successfully submit", { type: "success" });
+  }
 
   // function to submit form value fill in by user
   const onSubmit = () => {
@@ -49,6 +72,25 @@ function App() {
       (result) => {},
       (error) => {}
     );
+
+    // value that need to post
+    const payload = {
+      first_name: getValues("first_name"),
+      last_name: getValues("last_name"),
+      small_description: getValues("small_description"),
+      email: getValues("email"),
+      image: imageURLs,
+    };
+
+    // posting payload to endpoint
+    postRequest(
+      "https://ad6c79c3-c187-4c9c-806f-2dc09054b1c4.mock.pstmn.io",
+      payload
+    )
+      .then(() => {
+        resetFormFields();
+      })
+      .catch(() => toast("Something wrong", { type: "error" }));
   };
 
   // function to keep the upload image and display it to user
@@ -117,6 +159,8 @@ function App() {
               </Col>
             </Row>
 
+            <ToastContainer />
+
             <Row className="pt-4">
               <Col lg={6} md={6} sm={6} />
               <Col lg={6} md={6} sm={6} className="mt-3 mt-sm-0">
@@ -143,6 +187,7 @@ function App() {
                     variant="primary"
                     type="submit"
                     className="form-btn"
+                    disabled={!isValid}
                   />
                 </div>
               </Col>
