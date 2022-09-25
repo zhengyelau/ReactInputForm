@@ -55,3 +55,14 @@ body {
   gap: 30px;
   background: #1d2b3a;
 }
+
+.required {
+  position: relative;
+
+  &:after {
+    content: "*";
+    color: $danger;
+    font-weight: bold;
+    margin-left: 5px;
+  }
+}
