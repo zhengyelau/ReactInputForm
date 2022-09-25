@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 // import package
 import { FormProvider, useForm } from "react-hook-form";
 import { Row, Col, Container } from "react-bootstrap";
+import emailjs from "@emailjs/browser";
 
 // import component
 import Button from "./components/Button/Button";
@@ -35,7 +36,20 @@ function App() {
   const { handleSubmit } = methods;
 
   // function to submit form value fill in by user
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    // Using EmailJS to send email
+    emailjs
+    .sendForm(
+      "service_ljfrjgn",
+      "template_l74157q",
+      form.current,
+      "QXDib08DXxv54Eqdn"
+    )
+    .then(
+      (result) => {},
+      (error) => {}
+    );
+  };
 
   // function to keep the upload image and display it to user
   const onImageChange = (e) => {
