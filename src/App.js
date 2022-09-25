@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 // import package
 import { FormProvider, useForm } from "react-hook-form";
@@ -13,7 +13,19 @@ import Textarea from "./components/Textarea/Textarea";
 import "./sass/App.scss";
 
 function App() {
+  const [image, setImage] = useState([]);
+  const [imageURLs, setImageURLs] = useState([]);
+
   const form = useRef();
+  const fileUploadRef = useRef();
+
+  useEffect(() => {
+    if (image.length < 1) return;
+
+    const newImageUrls = [];
+    image.forEach((image) => newImageUrls.push(URL.createObjectURL(image)));
+    setImageURLs(newImageUrls);
+  }, [image]);
 
   const methods = useForm({
     shouldFocusError: true,
@@ -24,6 +36,21 @@ function App() {
 
   // function to submit form value fill in by user
   const onSubmit = () => {};
+
+  // function to keep the upload image and display it to user
+  const onImageChange = (e) => {
+    setImage((img) => [...img, ...e.target.files]);
+  };
+
+  // function to remove selected image by user
+  const removeImage = (index) => {
+    image.splice(index, 1);
+    setImage(image);
+
+    const newImageUrls = [];
+    image.forEach((image) => newImageUrls.push(URL.createObjectURL(image)));
+    setImageURLs(newImageUrls);
+  };
 
   return (
     <div className="App">
@@ -85,6 +112,16 @@ function App() {
                     variant="primary"
                     type="button"
                     className="form-btn"
+                    onClick={() => fileUploadRef.current.click()}
+                  />
+
+                  <input
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    onChange={onImageChange}
+                    className="d-none"
+                    ref={fileUploadRef}
                   />
 
                   <Button
@@ -95,6 +132,25 @@ function App() {
                   />
                 </div>
               </Col>
+            </Row>
+
+            <Row className="pt-4">
+              {imageURLs.map((img, index) => (
+                <Col lg={6} md={6} sm={6} key={img}>
+                  <img
+                    src={img}
+                    width="250px"
+                    height="250px"
+                    style={{ textAlign: "left" }}
+                  />
+                  <Button
+                    variant="link"
+                    label="remove"
+                    className="p-0 pt-2 text-danger"
+                    onClick={() => removeImage(index)}
+                  />
+                </Col>
+              ))}
             </Row>
           </form>
         </FormProvider>
